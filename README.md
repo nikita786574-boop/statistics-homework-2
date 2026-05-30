@@ -1,5 +1,7 @@
 # statistics-homework-2
 
+Прищепа Никита Иванови БИВ247
+
 [Ссылка на репозиторий](https://github.com/nikita786574-boop/statistics-homework-2)
 
 ## task1
@@ -160,4 +162,89 @@ ax.plot(x_range, p(x_range), color = 'red')
 ax.scatter(df['sepal length (cm)'], df['petal length (cm)'])
 ax.set_xlabel('sepal length (cm)')
 ax.set_ylabel('petal length (cm)')
+```
+
+
+## task 3
+
+Вам предоставлен файл `data-dz2.txt`, содержащий выборку 1000 значений случайно величины `X`, распределённой по экспоненциальному закону:
+
+$$f(x)=\lambda e^{-\lambda x}, x\geq0, \lambda \gt 0$$
+
+1. Загрузите данные из файла с помощью библиотеку Numpy
+
+``` Python
+import numpy as np
+data = np.loadtxt("data-dz2.txt")
+```
+
+2. Используя метод моментов, постройте две оценки параметра $\lambda$ - по первому моменту и по второму.
+
+3. Сравните полученные оценки $\hat{\lambda_1}$ и $\hat{\lambda_2}$. Укажите, какая из них ближе к истинному значению, если известно значение параметра: $\lambda = 2$.
+
+### solution
+
+Метод моментов - способ определения параметров распределения, приравнивая теоретические моменты выборочным
+
+Первый момент - выборочное среднее
+
+$$\hat\mu_1 = \frac{1}{n} \sum_{i=1}^{n}x_i$$
+
+Теоретически рассчитывается для экспоненциального распределения так:
+
+$$\mu = \frac{1}{\lambda}$$
+
+``` Python
+print(round(data.mean(), 4))
+```
+
+$$\hat{\mu_1}= 0.4863=\mu=\frac{1}{\lambda}$$
+
+$$\hat{\lambda_1} = 2.0565$$
+
+Второй момент равен математическому ожиданию квадрата случайной величины
+
+$$\hat{\mu_2} = \frac{1}{n}\sum_{i=1}^{n}x_i^2$$
+
+$$\mu_2 = E[X^2]=D[X] - (E[X])^2=D[X]+\mu_1^2$$
+
+Для экспоненциального распределения 
+
+$$D[X] = \frac{1}{\lambda^2}$$
+
+$$\mu_2 = \frac{1}{\lambda^2}+\frac{1}{\lambda^2}=\frac{2}{\lambda^2}=\hat{\mu_2}$$
+
+$$\lambda = \sqrt{\frac{2}{\hat{\mu_2}}}$$
+
+$$\hat{\mu_2}=0.4726$$
+
+$$\hat{\lambda_2} = 2.0571$$
+
+$\hat{\lambda_1} = 2.0565$
+
+$\hat{\lambda_1} - \lambda = 0.0565 = \delta_1$
+
+$\hat{\lambda_2} - \lambda = 0.0571 = \delta_2$
+
+$$\delta_2>\delta_1$$
+
+Значит, значение параметра, полученное при помощи второго момента сильнее отличается от реального, чем значение параметра, полученное при помощи второго момента.
+
+
+``` Python
+print(round(data.mean(), 4))
+mean = data.mean()
+lamb_1 = 1/mean
+print(round(lamb_1,4))
+
+moment_2 = 0
+for i in range(len(data)):
+    moment_2 += data[i]*data[i]
+moment_2 /= len(data)
+print(round(moment_2,4))
+lamb_2=np.sqrt(2/moment_2)
+print(round(lamb_2,4))
+
+print(round(abs(lamb_1-2),4))
+print(round(abs(lamb_2-2),4))
 ```
