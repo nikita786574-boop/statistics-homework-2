@@ -141,3 +141,23 @@ Scatter plot
 
 Из большого положительного коэффициента корреляции и графика хорошо видно, что зависимость почти линейная.
 
+``` Python
+sample_covariation = df['sepal length (cm)'].cov(df['petal length (cm)'])
+print(round(sample_covariation,4))
+
+sample_correlation = df['sepal length (cm)'].corr(df['petal length (cm)'])
+print(round(sample_correlation, 4))
+
+import matplotlib.pyplot as plt
+import numpy as np
+fig, ax = plt.subplots()
+
+z = np.polyfit(df['sepal length (cm)'], df['petal length (cm)'], 1)
+p = np.poly1d(z)
+x_range = np.linspace(df['sepal length (cm)'].min(), df['sepal length (cm)'].max(), 100)
+ax.plot(x_range, p(x_range), color = 'red')
+
+ax.scatter(df['sepal length (cm)'], df['petal length (cm)'])
+ax.set_xlabel('sepal length (cm)')
+ax.set_ylabel('petal length (cm)')
+```
